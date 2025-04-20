@@ -20,21 +20,21 @@ function App() {
   const handleDownloadQRCode = () => {
     const svg = document.querySelector("svg");
     if (!svg) return;
-  
+
     const svgData = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-  
+
     const img = new Image();
     const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
     const url = URL.createObjectURL(svgBlob);
-  
+
     img.onload = () => {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
       URL.revokeObjectURL(url);
-  
+
       const pngImg = canvas.toDataURL("image/png");
       const link = document.createElement("a");
       link.download = "qr_code.png";
@@ -43,16 +43,18 @@ function App() {
       link.click();
       document.body.removeChild(link);
     };
-  
+
     img.src = url;
   };
-  
 
   return (
     <div className="App">
-      <h1>QR Studio</h1>
-
-      <div className="input-container">
+      <div className="edit-panel">
+        <h2>Edit Panel</h2>
+        {/* Future options like color pickers will be added here */}
+      </div>
+      <div className="qr-studio">
+        <h1>QR Studio</h1>
         <input
           type="text"
           value={inputValue}
@@ -60,14 +62,15 @@ function App() {
           placeholder="Enter URL, text or contact details"
         />
         <button onClick={handleGenerateQRCode}>Generate QR Code</button>
+        {qrCode ? (
+          <>
+            <ReactQRCode value={qrCode} size={256} bgColor="white" fgColor="black" />
+            <button onClick={handleDownloadQRCode}>Download QR Code</button>
+          </>
+        ) : (
+          <p>Enter text and generate a QR code</p>
+        )}
       </div>
-
-      {qrCode && (
-        <div className="qr-code-container">
-          <ReactQRCode value={qrCode} size={256} />
-          <button onClick={handleDownloadQRCode}>Download QR Code</button>
-        </div>
-      )}
     </div>
   );
 }

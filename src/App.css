@@ -1,52 +1,94 @@
+#root {
+  width: 100%;
+}
 
 .App {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
   background-color: #f4f4f9;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
-  margin-bottom: 20px;
+.edit-panel {
+  width: 25%;
+  background-color: #2c3e50;
+  color: white;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
-.input-container {
+.edit-panel h2 {
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  font-size: 1.8rem;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.qr-studio {
+  width: 75%;
+  padding: 40px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+}
+
+.qr-studio h1 {
+  margin-bottom: 30px;
+  font-weight: 700;
+  color: #333;
+}
+
+.qr-studio input {
+  padding: 12px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  box-sizing: border-box;
   margin-bottom: 20px;
 }
 
-input {
-  padding: 10px;
+.qr-studio button {
+  padding: 12px 24px;
   font-size: 16px;
-  width: 250px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #4caf50;
-  color: white;
+  background-color: #3498db;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  color: white;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
 }
 
-button:hover {
-  background-color: #45a049;
+.qr-studio button:hover {
+  background-color: #2980b9;
 }
 
-.qr-code-container {
-  text-align: center;
+.qr-studio p {
+  color: #666;
+  font-size: 18px;
 }
 
-.qr-code-container canvas {
-  margin: 10px 0;
+.qr-studio > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-studio > div > button {
+  margin-top: 20px;
+  background-color: #27ae60;
+}
+
+.qr-studio > div > button:hover {
+  background-color: #1e8449;
 }
