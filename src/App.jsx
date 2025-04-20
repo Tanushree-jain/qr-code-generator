@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactQRCode from "react-qr-code"; // Import the react-qr-code library
+import "./App.css"; // Import the CSS file for styling
 
 function App() {
   const [inputValue, setInputValue] = useState(""); // State to hold the input value
@@ -17,19 +18,39 @@ function App() {
 
   // Download the QR code as an image
   const handleDownloadQRCode = () => {
-    const canvas = document.querySelector("canvas"); // QRCode generates on a <canvas> element
-    if (canvas) {
-      const image = canvas.toDataURL("image/png"); // Convert canvas to image data URL
+    const svg = document.querySelector("svg");
+    if (!svg) return;
+  
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+  
+    const img = new Image();
+    const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+  
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+  
+      const pngImg = canvas.toDataURL("image/png");
       const link = document.createElement("a");
-      link.href = image;
       link.download = "qr_code.png";
+      link.href = pngImg;
+      document.body.appendChild(link);
       link.click();
-    }
+      document.body.removeChild(link);
+    };
+  
+    img.src = url;
   };
+  
 
   return (
     <div className="App">
-      <h1>QR Code Generator</h1>
+      <h1>QR Studio</h1>
 
       <div className="input-container">
         <input
