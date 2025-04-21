@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import ReactQRCode from "react-qr-code"; // Import the react-qr-code library
 import "./App.css"; // Import the CSS file for styling
+import { ColorPicker, useColor } from "react-color-palette"; // Import the color picker library
+import "react-color-palette/css"; // Import the CSS for the color picker
 
 function App() {
   const [inputValue, setInputValue] = useState(""); // State to hold the input value
   const [qrCode, setQrCode] = useState(""); // State to hold generated QR code URL
-
+  const [fgColor, setFgColor] = useColor("hex", "#000000");// State to hold foreground color
+  const [bgColor, setBgColor] = useColor("hex", "#ffffff");// State to hold background color
   // Handle input change
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -51,7 +54,8 @@ function App() {
     <div className="App">
       <div className="edit-panel">
         <h2>Edit Panel</h2>
-        {/* Future options like color pickers will be added here */}
+        <ColorPicker color={fgColor} onChange={setFgColor} />
+<ColorPicker color={bgColor} onChange={setBgColor} />
       </div>
       <div className="qr-studio">
         <h1>QR Studio</h1>
@@ -64,7 +68,7 @@ function App() {
         <button onClick={handleGenerateQRCode}>Generate QR Code</button>
         {qrCode ? (
           <>
-            <ReactQRCode value={qrCode} size={256} bgColor="white" fgColor="black" />
+            <ReactQRCode value={qrCode} size={256} bgColor={bgColor.hex} fgColor={fgColor.hex}/>
             <button onClick={handleDownloadQRCode}>Download QR Code</button>
           </>
         ) : (
