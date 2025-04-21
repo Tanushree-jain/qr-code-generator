@@ -29,6 +29,9 @@
   border-bottom: 2px solid #3498db;
   padding-bottom: 10px;
 }
+.color-input-group{
+  display: flex;
+}
 .rcp-saturation {
   height: 100px !important;
 }
