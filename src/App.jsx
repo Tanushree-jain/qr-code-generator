@@ -94,7 +94,7 @@ function App() {
         {showColorSection && (
           <div className="color-section">
             <div className="color-input-group">
-              <label>Foreground:</label>
+              <label>Border:</label>
               <div
                 className="color-dot"
                 style={{ backgroundColor: fgColor.hex }}
@@ -105,7 +105,7 @@ function App() {
                   <ColorPicker
                     color={fgColor}
                     onChange={setFgColor}
-                    hideHSV
+                    hideInput={["rgb", "hsv"]}
                     dark
                   />
                 </div>
@@ -124,7 +124,7 @@ function App() {
                   <ColorPicker
                     color={bgColor}
                     onChange={setBgColor}
-                    hideHSV
+                    hideInput={["rgb", "hsv"]}
                     dark
                   />
                 </div>
