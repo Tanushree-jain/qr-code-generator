@@ -53,9 +53,23 @@ function App() {
   return (
     <div className="App">
       <div className="edit-panel">
-        <h2>Edit Panel</h2>
-        <ColorPicker color={fgColor} onChange={setFgColor} />
-<ColorPicker color={bgColor} onChange={setBgColor} />
+        <h2>Design your QR</h2>
+        <p>Foreground Color</p>
+        <input
+          type="text"
+          value={fgColor.hex}
+          onChange={setFgColor}
+          placeholder="Enter URL, text or contact details"
+        />
+        <p>Background Color</p>
+        <input
+          type="text"
+          value={bgColor.hex}
+          onChange={setBgColor}
+          placeholder="Enter URL, text or contact details"
+        />
+        {/* <ColorPicker color={fgColor} onChange={setFgColor} />
+<ColorPicker color={bgColor} onChange={setBgColor} /> */}
       </div>
       <div className="qr-studio">
         <h1>QR Studio</h1>
