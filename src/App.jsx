@@ -1,49 +1,47 @@
 import React, { useState, useRef, useEffect } from "react";
-import ReactQRCode from "react-qr-code"; // Import the react-qr-code library
-import "./App.css"; // Import the CSS file for styling
-import { ColorPicker, useColor } from "react-color-palette"; // Import the color picker library
-import "react-color-palette/css"; // Import the CSS for the color picker
+import ReactQRCode from "react-qr-code";
+import "./App.css";
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/css";
 
 function App() {
-  const [inputValue, setInputValue] = useState(""); // State to hold the input value
-  const [qrCode, setQrCode] = useState(""); // State to hold generated QR code URL
-  const [fgColor, setFgColor] = useColor("hex", "#000000");// State to hold foreground color
-  const [bgColor, setBgColor] = useColor("hex", "#ffffff");// State to hold background color
+  const [inputValue, setInputValue] = useState("");
+  const [qrCode, setQrCode] = useState("");
+  const [fgColor, setFgColor] = useColor("hex", "#000000");
+  const [qrSize, setQrSize] = useState("256");
+
+  // 🔧 Use plain color object for background
+  const [bgColor, setBgColor] = useState({
+    hex: "#ffffff",
+    hsv: { h: 0, s: 0, v: 1 },
+    rgb: { r: 255, g: 255, b: 255 },
+  });
 
   const [showColorSection, setShowColorSection] = useState(false);
-  const [showColorPicker, setShowColorPicker] = useState(null); // null, 'fg' or 'bg'
+  const [showColorPicker, setShowColorPicker] = useState(null);
   const fgColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
 
-  // Handle input change
-  const handleChange = (e) => {
-    setInputValue(e.target.value);
-  };
+  const handleChange = (e) => setInputValue(e.target.value);
+  const handleGenerateQRCode = () => setQrCode(inputValue);
 
-  // Toggle color picker popup
   const toggleColorPicker = (type) => {
     setShowColorPicker(showColorPicker === type ? null : type);
   };
 
-  // Close color picker if clicked outside - improved to prevent premature closing
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showColorPicker === "fg") {
-        if (
+      if (
+        (showColorPicker === "fg" &&
           fgColorPickerRef.current &&
           !fgColorPickerRef.current.contains(event.target) &&
-          !event.target.closest('.color-dot-wrapper')
-        ) {
-          setShowColorPicker(null);
-        }
-      } else if (showColorPicker === "bg") {
-        if (
+          !event.target.closest(".color-dot-wrapper")) ||
+        (showColorPicker === "bg" &&
           bgColorPickerRef.current &&
           !bgColorPickerRef.current.contains(event.target) &&
-          !event.target.closest('.color-dot-wrapper')
-        ) {
-          setShowColorPicker(null);
-        }
+          !event.target.closest(".color-dot-wrapper"))
+      ) {
+        setShowColorPicker(null);
       }
     };
     if (showColorPicker) {
@@ -53,13 +51,11 @@ function App() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showColorPicker]);
-
-  // Generate QR Code when the input value changes
-  const handleGenerateQRCode = () => {
-    setQrCode(inputValue);
+  const sanitizeSize = (value) => {
+    const numeric = parseInt(value.toString().replace(/[^\d]/g, ""));
+    return isNaN(numeric) ? 256 : numeric; // fallback to 256 if invalid
   };
-
-  // Download the QR code as an image
+  
   const handleDownloadQRCode = () => {
     const svg = document.querySelector("svg");
     if (!svg) return;
@@ -69,7 +65,9 @@ function App() {
     const ctx = canvas.getContext("2d");
 
     const img = new Image();
-    const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+    const svgBlob = new Blob([svgData], {
+      type: "image/svg+xml;charset=utf-8",
+    });
     const url = URL.createObjectURL(svgBlob);
 
     img.onload = () => {
@@ -107,7 +105,7 @@ function App() {
               <div className="color-dot-wrapper" onClick={() => toggleColorPicker("fg")}>
                 <div
                   className="color-dot"
-                  style={{ backgroundColor: fgColor.hex || "#000000" }}
+                  style={{ backgroundColor: fgColor.hex }}
                   title="Foreground Color"
                 />
                 <span>Foreground</span>
@@ -115,7 +113,7 @@ function App() {
               <div className="color-dot-wrapper" onClick={() => toggleColorPicker("bg")}>
                 <div
                   className="color-dot"
-                  style={{ backgroundColor: bgColor.hex || "#ffffff" }}
+                  style={{ backgroundColor: bgColor.hex }}
                   title="Background Color"
                 />
                 <span>Background</span>
@@ -127,9 +125,7 @@ function App() {
                   width={100}
                   height={80}
                   color={fgColor}
-                  onChange={(color) => {
-                    setFgColor(color);
-                  }}
+                  onChange={setFgColor}
                   hideHSV
                   dark
                 />
@@ -141,16 +137,19 @@ function App() {
                   width={100}
                   height={80}
                   color={bgColor}
-                  onChange={(color) => {
-                    setBgColor(color);
-                  }}
-                  hideHSV
+                  onChange={setBgColor}
                   dark
                 />
               </div>
             )}
           </div>
         )}
+        <input
+  type="text"
+  value={qrSize}
+  onChange={(e) => setQrSize(e.target.value.replace(/[^\dpx]/g, ""))}
+/>
+
       </div>
       <div className="qr-studio">
         <h1>QR Studio</h1>
@@ -163,7 +162,12 @@ function App() {
         <button onClick={handleGenerateQRCode}>Generate QR Code</button>
         {qrCode ? (
           <>
-            <ReactQRCode value={qrCode} size={256} bgColor={bgColor.hex || "#ffffff"} fgColor={fgColor.hex || "#000000"} />
+            <ReactQRCode
+              value={qrCode}
+              size={sanitizeSize(qrSize)}
+              fgColor={fgColor.hex}
+              bgColor={bgColor.hex}
+            />
             <button onClick={handleDownloadQRCode}>Download QR Code</button>
           </>
         ) : (
