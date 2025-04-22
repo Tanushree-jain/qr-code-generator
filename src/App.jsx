@@ -144,11 +144,33 @@ function App() {
             )}
           </div>
         )}
-        <input
-  type="text"
-  value={qrSize}
-  onChange={(e) => setQrSize(e.target.value.replace(/[^\dpx]/g, ""))}
-/>
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", marginTop: "20px", maxWidth: "200px", gap: "10px" }}>
+          <label
+            htmlFor="qrSizeInput"
+            style={{ fontSize: "1rem", fontWeight: 600, color: "#ecf0f1", marginBottom: "0" }}
+          >
+            Size
+          </label>
+          <input
+            id="qrSizeInput"
+            type="text"
+            value={qrSize}
+            onChange={(e) => setQrSize(e.target.value.replace(/[^\dpx]/g, ""))}
+            style={{
+              padding: "8px 12px",
+              fontSize: "1rem",
+              borderRadius: "6px",
+              border: "1px solid #3498db",
+              outline: "none",
+              boxSizing: "border-box",
+              color: "#2c3e50",
+              backgroundColor: "#ecf0f1",
+              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+              width: "80px",
+            }}
+            placeholder="256"
+          />
+        </div>
 
       </div>
       <div className="qr-studio">
