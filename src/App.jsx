@@ -3,6 +3,7 @@ import ReactQRCode from "react-qr-code";
 import "./App.css";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
+import QRCodeStyling from "qr-code-styling";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
@@ -87,7 +88,11 @@ function App() {
 
     img.src = url;
   };
-
+  const handleLogoUpload = (e) => {
+    if (e.target.files[0]) {
+      setLogoFile(e.target.files[0]);
+    }
+  };
   return (
     <div className="App">
       <div className="edit-panel">
@@ -158,6 +163,15 @@ function App() {
             className="size-input-field"
             placeholder="256"
           />
+        </div>
+        <div className="size-input-container">
+          <label
+            htmlFor="qrlogoInput"
+            className="size-input-label"
+          >
+            Upload Logo
+          </label>
+          <input type="file" accept="image/*"  onChange={handleLogoUpload} />
         </div>
       </div>
       <div className="qr-studio">
