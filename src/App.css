@@ -159,3 +159,31 @@
   background-color: #1e8449;
 }
 
+.size-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+  max-width: 200px;
+  gap: 10px;
+}
+
+.size-input-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ecf0f1;
+  margin-bottom: 0;
+}
+
+.size-input-field {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #3498db;
+  outline: none;
+  box-sizing: border-box;
+  color: #2c3e50;
+  background-color: #ecf0f1;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 80px;
+}

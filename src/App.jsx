@@ -55,7 +55,7 @@ function App() {
     const numeric = parseInt(value.toString().replace(/[^\d]/g, ""));
     return isNaN(numeric) ? 256 : numeric; // fallback to 256 if invalid
   };
-  
+
   const handleDownloadQRCode = () => {
     const svg = document.querySelector("svg");
     if (!svg) return;
@@ -95,7 +95,6 @@ function App() {
         <h3
           className="collapsible-header"
           onClick={() => setShowColorSection(!showColorSection)}
-          style={{ cursor: "pointer", userSelect: "none" }}
         >
           Color {showColorSection ? "▲" : "▼"}
         </h3>
@@ -144,10 +143,10 @@ function App() {
             )}
           </div>
         )}
-        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", marginTop: "20px", maxWidth: "200px", gap: "10px" }}>
+        <div className="size-input-container">
           <label
             htmlFor="qrSizeInput"
-            style={{ fontSize: "1rem", fontWeight: 600, color: "#ecf0f1", marginBottom: "0" }}
+            className="size-input-label"
           >
             Size
           </label>
@@ -156,22 +155,10 @@ function App() {
             type="text"
             value={qrSize}
             onChange={(e) => setQrSize(e.target.value.replace(/[^\dpx]/g, ""))}
-            style={{
-              padding: "8px 12px",
-              fontSize: "1rem",
-              borderRadius: "6px",
-              border: "1px solid #3498db",
-              outline: "none",
-              boxSizing: "border-box",
-              color: "#2c3e50",
-              backgroundColor: "#ecf0f1",
-              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
-              width: "80px",
-            }}
+            className="size-input-field"
             placeholder="256"
           />
         </div>
-
       </div>
       <div className="qr-studio">
         <h1>QR Studio</h1>
