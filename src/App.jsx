@@ -1,17 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import ReactQRCode from "react-qr-code";
-import "./App.css";
+import QRCodeStyling from "qr-code-styling";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
-import QRCodeStyling from "qr-code-styling";
+import "./App.css";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [qrCode, setQrCode] = useState("");
-  const [fgColor, setFgColor] = useColor("hex", "#000000");
   const [qrSize, setQrSize] = useState("256");
+  const [logoFile, setLogoFile] = useState(null);
 
-  // 🔧 Use plain color object for background
+  const [fgColor, setFgColor] = useColor("hex", "#000000");
   const [bgColor, setBgColor] = useState({
     hex: "#ffffff",
     hsv: { h: 0, s: 0, v: 1 },
@@ -20,14 +19,57 @@ function App() {
 
   const [showColorSection, setShowColorSection] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(null);
+
   const fgColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
+  const qrRef = useRef(null);
+
+  const qrCodeInstance = useRef(
+    new QRCodeStyling({
+      width: 256,
+      height: 256,
+      data: "",
+      image: "",
+      dotsOptions: {
+        color: "#000000",
+        type: "rounded",
+      },
+      backgroundOptions: {
+        color: "#ffffff",
+      },
+      imageOptions: {
+        crossOrigin: "anonymous",
+        margin: 4,
+        hideBackgroundDots: false, // optional
+      },
+      // ✅ MOST IMPORTANT
+      qrOptions: {
+        errorCorrectionLevel: "H", // High error correction for logo
+      },
+    })
+  ).current;
+  
 
   const handleChange = (e) => setInputValue(e.target.value);
   const handleGenerateQRCode = () => setQrCode(inputValue);
 
+  const handleLogoUpload = (e) => {
+    if (e.target.files[0]) {
+      setLogoFile(e.target.files[0]);
+    }
+  };
+
+  const sanitizeSize = (value) => {
+    const numeric = parseInt(value.toString().replace(/[^\d]/g, ""));
+    return isNaN(numeric) ? 256 : numeric;
+  };
+
   const toggleColorPicker = (type) => {
     setShowColorPicker(showColorPicker === type ? null : type);
+  };
+
+  const handleDownloadQRCode = () => {
+    qrCodeInstance.download({ name: "qr_code", extension: "png" });
   };
 
   useEffect(() => {
@@ -52,47 +94,27 @@ function App() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showColorPicker]);
-  const sanitizeSize = (value) => {
-    const numeric = parseInt(value.toString().replace(/[^\d]/g, ""));
-    return isNaN(numeric) ? 256 : numeric; // fallback to 256 if invalid
-  };
 
-  const handleDownloadQRCode = () => {
-    const svg = document.querySelector("svg");
-    if (!svg) return;
-
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const img = new Image();
-    const svgBlob = new Blob([svgData], {
-      type: "image/svg+xml;charset=utf-8",
+  useEffect(() => {
+    qrCodeInstance.update({
+      width: sanitizeSize(qrSize),
+      height: sanitizeSize(qrSize),
+      data: qrCode,
+      image: logoFile ? URL.createObjectURL(logoFile) : "",
+      dotsOptions: {
+        color: fgColor.hex,
+      },
+      backgroundOptions: {
+        color: bgColor.hex,
+      },
     });
-    const url = URL.createObjectURL(svgBlob);
 
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      URL.revokeObjectURL(url);
-
-      const pngImg = canvas.toDataURL("image/png");
-      const link = document.createElement("a");
-      link.download = "qr_code.png";
-      link.href = pngImg;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
-
-    img.src = url;
-  };
-  const handleLogoUpload = (e) => {
-    if (e.target.files[0]) {
-      setLogoFile(e.target.files[0]);
+    if (qrRef.current) {
+      qrRef.current.innerHTML = "";
+      qrCodeInstance.append(qrRef.current);
     }
-  };
+  }, [qrCode, fgColor, bgColor, qrSize, logoFile]);
+
   return (
     <div className="App">
       <div className="edit-panel">
@@ -148,11 +170,9 @@ function App() {
             )}
           </div>
         )}
+
         <div className="size-input-container">
-          <label
-            htmlFor="qrSizeInput"
-            className="size-input-label"
-          >
+          <label htmlFor="qrSizeInput" className="size-input-label">
             Size
           </label>
           <input
@@ -164,16 +184,15 @@ function App() {
             placeholder="256"
           />
         </div>
+
         <div className="size-input-container">
-          <label
-            htmlFor="qrlogoInput"
-            className="size-input-label"
-          >
+          <label htmlFor="qrlogoInput" className="size-input-label">
             Upload Logo
           </label>
-          <input type="file" accept="image/*"  onChange={handleLogoUpload} />
+          <input type="file" accept="image/*" onChange={handleLogoUpload} />
         </div>
       </div>
+
       <div className="qr-studio">
         <h1>QR Studio</h1>
         <input
@@ -183,14 +202,10 @@ function App() {
           placeholder="Enter URL, text or contact details"
         />
         <button onClick={handleGenerateQRCode}>Generate QR Code</button>
+
         {qrCode ? (
           <>
-            <ReactQRCode
-              value={qrCode}
-              size={sanitizeSize(qrSize)}
-              fgColor={fgColor.hex}
-              bgColor={bgColor.hex}
-            />
+            <div ref={qrRef}></div>
             <button onClick={handleDownloadQRCode}>Download QR Code</button>
           </>
         ) : (
