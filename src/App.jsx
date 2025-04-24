@@ -12,6 +12,7 @@ function App() {
 
   const [fgColor, setFgColor] = useColor("hex", "#000000");
   const [dgColor, setDgColor] = useColor("hex", "#000000");
+  const [sgColor, setSgColor] = useColor("hex", "#000000");
   const [bgColor, setBgColor] = useState({
     hex: "#ffffff",
     hsv: { h: 0, s: 0, v: 1 },
@@ -28,6 +29,7 @@ function App() {
   const fgColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
   const dgColorPickerRef = useRef(null);
+  const sgColorPickerRef = useRef(null);
   const qrRef = useRef(null);
 
   const qrCodeInstance = useRef(
@@ -101,6 +103,10 @@ function App() {
             dgColorPickerRef.current &&
             !dgColorPickerRef.current.contains(event.target) &&
             !event.target.closest(".color-dot-wrapper"))
+            (showColorPicker === "sg" &&
+              sgColorPickerRef.current &&
+              !sgColorPickerRef.current.contains(event.target) &&
+              !event.target.closest(".color-dot-wrapper"))
       ) {
         setShowColorPicker(null);
       }
@@ -128,13 +134,16 @@ function App() {
       cornersDotOptions: {
         color: dgColor.hex,
       },
+      cornersSquareOptions: {
+        color: sgColor.hex,
+      },
     });
 
     if (qrRef.current) {
       qrRef.current.innerHTML = "";
       qrCodeInstance.append(qrRef.current);
     }
-  }, [qrCode, fgColor, bgColor,dgColor, qrSize, logoFile]);
+  }, [qrCode, fgColor, bgColor,dgColor,sgColor, qrSize, logoFile]);
 
   return (
     <div className="App">
@@ -170,9 +179,17 @@ function App() {
                 <div
                   className="color-dot"
                   style={{ backgroundColor: dgColor.hex }}
-                  title="Background Color"
+                  title="Dot Corner"
                 />
                 <span>Dot Corner</span>
+              </div>
+              <div className="color-dot-wrapper" onClick={() => toggleColorPicker("sg")}>
+                <div
+                  className="color-dot"
+                  style={{ backgroundColor: sgColor.hex }}
+                  title="Square Corner"
+                />
+                <span>Square Corner</span>
               </div>
             </div>
             {showColorPicker === "fg" && (
@@ -205,6 +222,17 @@ function App() {
                   height={80}
                   color={dgColor}
                   onChange={setDgColor}
+                  dark
+                />
+              </div>
+            )}
+             {showColorPicker === "sg" && (
+              <div className="color-picker-popup" ref={sgColorPickerRef}>
+                <ColorPicker
+                  width={100}
+                  height={80}
+                  color={sgColor}
+                  onChange={setSgColor}
                   dark
                 />
               </div>
