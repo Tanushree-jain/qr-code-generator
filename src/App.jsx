@@ -22,6 +22,7 @@ function App() {
   const [showColorPicker, setShowColorPicker] = useState(null);
   const [dotShape, setDotShape] = useState("square");
   const [cornerDotShape, setCornerDotShape] = useState("square");
+  const [cornerSquareShape, setCornerSquareShape] = useState("square");
 
   const fgColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
@@ -40,6 +41,10 @@ function App() {
       cornersDotOptions: {
         color: "#000000",
         type: cornerDotShape
+      },
+      cornersSquareOptions: {
+        color: "#000000",
+        type: cornerSquareShape
       },
       backgroundOptions: {
         color: "#ffffff",
@@ -221,6 +226,24 @@ function App() {
             >
               <option value="dot">Dot</option>
               <option value="square">Square</option>
+            </select>
+
+            <span>Corners Square</span>
+            <select
+              value={cornerSquareShape}
+              onChange={(e) => {
+                const selectedShape = e.target.value;
+                setCornerSquareShape(selectedShape);
+                qrCodeInstance.update({
+                  cornersSquareOptions: {
+                    type: selectedShape,
+                  },
+                });
+              }}
+            >
+              <option value="dot">Dot</option>
+              <option value="square">Square</option>
+              <option value="extra-rounded">Extra Rounded</option>
             </select>
           </div>
 
