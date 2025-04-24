@@ -21,6 +21,7 @@ function App() {
   const [showDotsSection, setShowDotsSection] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(null);
   const [dotShape, setDotShape] = useState("square");
+  const [cornerDotShape, setCornerDotShape] = useState("square");
 
   const fgColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
@@ -35,6 +36,10 @@ function App() {
       dotsOptions: {
         color: "#000000",
         type: dotShape,
+      },
+      cornersDotOptions: {
+        color: "#000000",
+        type: cornerDotShape
       },
       backgroundOptions: {
         color: "#ffffff",
@@ -180,9 +185,9 @@ function App() {
         </h3>
         {showDotsSection && (
           <div className="color-section">
-<span>Dot Type</span> 
+            <span>Dot Type</span>
             <select
-                value={dotShape}                
+              value={dotShape}
               onChange={(e) => {
                 const selectedShape = e.target.value;
                 setDotShape(selectedShape);
@@ -192,7 +197,7 @@ function App() {
                   },
                 });
               }}
-            >   
+            >
               <option value="rounded">Rounded</option>
               <option value="dots">Dots</option>
               <option value="square">Square</option>
@@ -200,7 +205,26 @@ function App() {
               <option value="extra-rounded">Extra Rounded</option>
               <option value="classy-rounded">Classy Rounded</option>
             </select>
+
+            <span>Corners Dot</span>
+            <select
+              value={cornerDotShape}
+              onChange={(e) => {
+                const selectedShape = e.target.value;
+                setCornerDotShape(selectedShape);
+                qrCodeInstance.update({
+                  cornersDotOptions: {
+                    type: selectedShape,
+                  },
+                });
+              }}
+            >
+              <option value="dot">Dot</option>
+              <option value="square">Square</option>
+            </select>
           </div>
+
+          
         )}
         <div className="size-input-container">
           <label htmlFor="qrSizeInput" className="size-input-label">
