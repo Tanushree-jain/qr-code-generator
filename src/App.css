@@ -19,7 +19,9 @@
   color: #333;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+.direction{
+  float: left;
+}
 .edit-panel input[type="text"]:focus,
 .edit-panel input[type="file"]:focus,
 .edit-panel select:focus {
@@ -38,8 +40,10 @@
 }
 
 .edit-panel {
+  border-radius: 5px;
+    box-shadow: -6px 11px 14px 4px #5858586b;
   overflow: auto;
-  width: 30%;
+  width: 40%;
   background-color: #2c3e50;
   color: white;
   padding: 30px 20px;
@@ -71,7 +75,7 @@
 }
 
 .collapsible-header:hover {
-  color: #3498db;
+  color: #d0d2ff;
 }
 
 .color-section {
@@ -84,6 +88,7 @@
   gap: 24px;
   margin-top: 10px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .color-dot-wrapper {
@@ -261,12 +266,12 @@
   }
 
   .qr-code-container {
-    width: 100%;
+    width: 50%;
     max-width: 100%;
   }
 
   .qr-studio input,
   .qr-studio button {
-    width: 100%;
+    width: 50%;
   }
 }

@@ -150,13 +150,33 @@ function App() {
   return (
     <>
     <div className="App">
+    
+      <div className="qr-studio">
+        <img src={logo} alt="logo" className="logo" />
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleChange}
+          placeholder="Enter URL, text or contact details"
+        />
+        <button onClick={handleGenerateQRCode}>Generate QR Code</button>
+
+            {qrCode ? (
+              <>
+                <div ref={qrRef} className="qr-code-container"></div>
+                <button onClick={handleDownloadQRCode} className="download">Download QR Code</button>
+              </>
+            ) : (
+          <p>Enter text and generate a QR code</p>
+        )}
+      </div>
       <div className="edit-panel">
         <h2>Design Your QR</h2>
         <h3
           className="collapsible-header"
           onClick={() => setShowColorSection(!showColorSection)}
         >
-          Color {showColorSection ? "▲" : "▼"}
+          Color <span className="direction">{showColorSection ? "▲" : "▼"}</span>
         </h3>
         {showColorSection && (
           <div className="color-section">
@@ -246,7 +266,7 @@ function App() {
           className="collapsible-header"
           onClick={() => setShowDotsSection(!showDotsSection)}
         >
-          Dots & Corners{showDotsSection ? "▲" : "▼"}
+          Dots & Corners<span className="direction">{showDotsSection ? "▲" : "▼"}</span>
         </h3>
         {showDotsSection && (
           <div className="color-section">
@@ -331,26 +351,6 @@ function App() {
         </div>
       </div>
 
-      <div className="qr-studio">
-        <img src={logo} alt="logo" className="logo" />
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleChange}
-          placeholder="Enter URL, text or contact details"
-        />
-        <button onClick={handleGenerateQRCode}>Generate QR Code</button>
-
-            {qrCode ? (
-              <>
-                <div ref={qrRef} className="qr-code-container"></div>
-                <button onClick={handleDownloadQRCode} className="download">Download QR Code</button>
-              </>
-            ) : (
-          <p>Enter text and generate a QR code</p>
-        )}
-      </div>
-      
     </div>
     <footer className="footer">Made with ❤️ by Tanushree | <a href="https://github.com/Tanushree-jain">GitHub</a> | <a href="https://www.linkedin.com/in/tanushree-gangwal">LinkedIn</a></footer>
     </>
