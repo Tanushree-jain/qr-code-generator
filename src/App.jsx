@@ -148,6 +148,7 @@ function App() {
   }, [qrCode, fgColor, bgColor,dgColor,sgColor, qrSize, logoFile]);
 
   return (
+    <>
     <div className="App">
       <div className="edit-panel">
         <h2>Design Your QR</h2>
@@ -349,7 +350,10 @@ function App() {
           <p>Enter text and generate a QR code</p>
         )}
       </div>
+      
     </div>
+    <footer className="footer">Made with ❤️ by Tanushree | <a href="https://github.com/Tanushree-jain">GitHub</a> | <a href="https://www.linkedin.com/in/tanushree-gangwal">LinkedIn</a></footer>
+    </>
   );
 }
 

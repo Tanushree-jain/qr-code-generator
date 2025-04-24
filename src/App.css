@@ -1,6 +1,7 @@
 #root {
   width: 100%;
 }
+
 .edit-panel input[type="text"],
 .edit-panel input[type="file"],
 .edit-panel select {
@@ -123,6 +124,7 @@
 .qr-studio {
   width: 75%;
   padding: 40px;
+  overflow: auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -212,7 +214,6 @@
   width: 80px;
 }
 
-/* New styles for QR code container */
 .qr-code-container {
   border: 2px solid #3498db;
   border-radius: 12px;
@@ -228,4 +229,44 @@
 .qr-code-container:hover {
   box-shadow: 0 12px 30px rgba(41, 128, 185, 0.5);
   transform: scale(1.05);
+}
+
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 16px 0;
+  background-color: #2c3e50;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  position: relative;
+  bottom: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .edit-panel {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .qr-studio {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .qr-code-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .qr-studio input,
+  .qr-studio button {
+    width: 100%;
+  }
 }
