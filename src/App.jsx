@@ -11,6 +11,7 @@ function App() {
   const [logoFile, setLogoFile] = useState(null);
 
   const [fgColor, setFgColor] = useColor("hex", "#000000");
+  const [dgColor, setDgColor] = useColor("hex", "#000000");
   const [bgColor, setBgColor] = useState({
     hex: "#ffffff",
     hsv: { h: 0, s: 0, v: 1 },
@@ -26,6 +27,7 @@ function App() {
 
   const fgColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
+  const dgColorPickerRef = useRef(null);
   const qrRef = useRef(null);
 
   const qrCodeInstance = useRef(
@@ -95,6 +97,10 @@ function App() {
           bgColorPickerRef.current &&
           !bgColorPickerRef.current.contains(event.target) &&
           !event.target.closest(".color-dot-wrapper"))
+          (showColorPicker === "dg" &&
+            dgColorPickerRef.current &&
+            !dgColorPickerRef.current.contains(event.target) &&
+            !event.target.closest(".color-dot-wrapper"))
       ) {
         setShowColorPicker(null);
       }
@@ -119,13 +125,16 @@ function App() {
       backgroundOptions: {
         color: bgColor.hex,
       },
+      cornersDotOptions: {
+        color: dgColor.hex,
+      },
     });
 
     if (qrRef.current) {
       qrRef.current.innerHTML = "";
       qrCodeInstance.append(qrRef.current);
     }
-  }, [qrCode, fgColor, bgColor, qrSize, logoFile]);
+  }, [qrCode, fgColor, bgColor,dgColor, qrSize, logoFile]);
 
   return (
     <div className="App">
@@ -148,6 +157,7 @@ function App() {
                 />
                 <span>Foreground</span>
               </div>
+             
               <div className="color-dot-wrapper" onClick={() => toggleColorPicker("bg")}>
                 <div
                   className="color-dot"
@@ -155,6 +165,14 @@ function App() {
                   title="Background Color"
                 />
                 <span>Background</span>
+              </div>
+              <div className="color-dot-wrapper" onClick={() => toggleColorPicker("dg")}>
+                <div
+                  className="color-dot"
+                  style={{ backgroundColor: dgColor.hex }}
+                  title="Background Color"
+                />
+                <span>Dot Corner</span>
               </div>
             </div>
             {showColorPicker === "fg" && (
@@ -176,6 +194,17 @@ function App() {
                   height={80}
                   color={bgColor}
                   onChange={setBgColor}
+                  dark
+                />
+              </div>
+            )}
+              {showColorPicker === "dg" && (
+              <div className="color-picker-popup" ref={dgColorPickerRef}>
+                <ColorPicker
+                  width={100}
+                  height={80}
+                  color={dgColor}
+                  onChange={setDgColor}
                   dark
                 />
               </div>
