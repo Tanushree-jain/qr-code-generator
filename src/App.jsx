@@ -91,6 +91,21 @@ function App() {
   };
 
   useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 600) {
+        setQrSize("150");  // Smaller size for mobile
+      } else {
+        setQrSize("256");  // Default size for larger screens
+      }
+    };
+
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup on component unmount
+    return () => window.removeEventListener("resize", handleResize);
     const handleClickOutside = (event) => {
       if (
         (showColorPicker === "fg" &&
