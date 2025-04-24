@@ -3,6 +3,7 @@ import QRCodeStyling from "qr-code-styling";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import "./App.css";
+import logo from "./assets/logo.png"; 
 
 function App() {
   const [inputValue, setInputValue] = useState("");
@@ -329,7 +330,7 @@ function App() {
       </div>
 
       <div className="qr-studio">
-        <h1>QR Studio</h1>
+        <img src={logo} alt="logo" className="logo" />
         <input
           type="text"
           value={inputValue}
