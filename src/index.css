@@ -12,14 +12,16 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.logo{
+  width: 30%;
+}
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #d0d2ff;
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #bdc0f9;
 }
 
 body {
