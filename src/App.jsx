@@ -281,12 +281,12 @@ function App() {
         />
         <button onClick={handleGenerateQRCode}>Generate QR Code</button>
 
-        {qrCode ? (
-          <>
-            <div ref={qrRef}></div>
-            <button onClick={handleDownloadQRCode}>Download QR Code</button>
-          </>
-        ) : (
+            {qrCode ? (
+              <>
+                <div ref={qrRef} className="qr-code-container"></div>
+                <button onClick={handleDownloadQRCode}>Download QR Code</button>
+              </>
+            ) : (
           <p>Enter text and generate a QR code</p>
         )}
       </div>
