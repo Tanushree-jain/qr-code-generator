@@ -5,6 +5,7 @@ import "react-color-palette/css";
 import "./App.css";
 import logo from "./assets/logo.png"; 
 
+
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [qrCode, setQrCode] = useState("");
@@ -342,7 +343,7 @@ function App() {
             {qrCode ? (
               <>
                 <div ref={qrRef} className="qr-code-container"></div>
-                <button onClick={handleDownloadQRCode}>Download QR Code</button>
+                <button onClick={handleDownloadQRCode} className="download">Download QR Code</button>
               </>
             ) : (
           <p>Enter text and generate a QR code</p>
