@@ -20,6 +20,7 @@ function App() {
   const [showColorSection, setShowColorSection] = useState(false);
   const [showDotsSection, setShowDotsSection] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(null);
+  const [dotShape, setDotShape] = useState("square");
 
   const fgColorPickerRef = useRef(null);
   const bgColorPickerRef = useRef(null);
@@ -33,7 +34,7 @@ function App() {
       image: "",
       dotsOptions: {
         color: "#000000",
-        type: "rounded",
+        type: dotShape,
       },
       backgroundOptions: {
         color: "#ffffff",
@@ -175,11 +176,30 @@ function App() {
           className="collapsible-header"
           onClick={() => setShowDotsSection(!showDotsSection)}
         >
-          Dots {showDotsSection ? "▲" : "▼"}
+          Dots & Corners{showDotsSection ? "▲" : "▼"}
         </h3>
         {showDotsSection && (
           <div className="color-section">
-
+<span>Dot Type</span> 
+            <select
+                value={dotShape}                
+              onChange={(e) => {
+                const selectedShape = e.target.value;
+                setDotShape(selectedShape);
+                qrCodeInstance.update({
+                  dotsOptions: {
+                    type: selectedShape,
+                  },
+                });
+              }}
+            >   
+              <option value="rounded">Rounded</option>
+              <option value="dots">Dots</option>
+              <option value="square">Square</option>
+              <option value="classy">Classy</option>
+              <option value="extra-rounded">Extra Rounded</option>
+              <option value="classy-rounded">Classy Rounded</option>
+            </select>
           </div>
         )}
         <div className="size-input-container">
