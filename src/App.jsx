@@ -263,7 +263,7 @@ function App() {
           />
         </div>
 
-        <div className="size-input-container">
+        <div className="img-input-container">
           <label htmlFor="qrlogoInput" className="size-input-label">
             Upload Logo
           </label>
