@@ -18,6 +18,7 @@ function App() {
   });
 
   const [showColorSection, setShowColorSection] = useState(false);
+  const [showDotsSection, setShowDotsSection] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(null);
 
   const fgColorPickerRef = useRef(null);
@@ -40,7 +41,7 @@ function App() {
       imageOptions: {
         crossOrigin: "anonymous",
         margin: 4,
-        hideBackgroundDots: false, // optional
+        hideBackgroundDots: true, // optional
       },
       // ✅ MOST IMPORTANT
       qrOptions: {
@@ -48,7 +49,7 @@ function App() {
       },
     })
   ).current;
-  
+
 
   const handleChange = (e) => setInputValue(e.target.value);
   const handleGenerateQRCode = () => setQrCode(inputValue);
@@ -170,7 +171,17 @@ function App() {
             )}
           </div>
         )}
+        <h3
+          className="collapsible-header"
+          onClick={() => setShowDotsSection(!showDotsSection)}
+        >
+          Dots {showDotsSection ? "▲" : "▼"}
+        </h3>
+        {showDotsSection && (
+          <div className="color-section">
 
+          </div>
+        )}
         <div className="size-input-container">
           <label htmlFor="qrSizeInput" className="size-input-label">
             Size
