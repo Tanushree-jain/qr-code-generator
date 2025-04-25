@@ -349,13 +349,22 @@ function App() {
             Size
           </label>
           <input
-            id="qrSizeInput"
-            type="text"
-            value={qrSize}
-            onChange={(e) => setQrSize(e.target.value.replace(/[^\dpx]/g, ""))}
-            className="size-input-field"
-            placeholder="256"
-          />
+  id="qrSizeInput"
+  type="number"
+  min={128}
+  max={1024}
+  value={qrSize}
+  onChange={(e) => {
+    let val = parseInt(e.target.value);
+    if (isNaN(val)) val = 256;
+    if (val < 128) val = 128;
+    if (val > 1024) val = 1024;
+    setQrSize(val);
+  }}
+  className="size-input-field"
+  placeholder="256"
+/>
+
         </div>
 
         <div className="img-input-container">
