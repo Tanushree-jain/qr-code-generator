@@ -243,9 +243,10 @@
   padding: 16px 0;
   background-color: #506880;
   color: white;
+  /* margin-top: 10px; */
   font-size: 0.95rem;
   font-weight: 500;
-  position: relative;
+  position: sticky;
   bottom: 0;
 }
 
