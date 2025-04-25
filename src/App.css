@@ -254,12 +254,14 @@
 @media (max-width: 768px) {
   .App {
     flex-direction: column;
-    height: auto;
+    height: 100vh;
   }
 
   .edit-panel {
     width: 100%;
     padding: 20px;
+    height: -webkit-fill-available;
+
   }
 
   .qr-studio {
